@@ -1,17 +1,34 @@
 let gameBoard = document.querySelector(".gameBoard");
+
 // default position for snake head
 let snakeBody = [{ x: 10, y: 10 }];
+
 // giving a random position for food to start
 let food = {
   x: Math.floor(Math.random() * 21),
   y: Math.floor(Math.random() * 21),
 };
+
 // default input direction given by user
 let inputDirection = { x: 0, y: 0 };
+
 // setting the default speed for the snake
 let speed = 1000;
+
 // to store the setInterval id to stop the game
 let gameLoop = undefined;
+
+// score to update the score value
+let score = document.querySelector(".score");
+
+// variable to update the existing score
+let currentScore = 0;
+
+// high score to update the high score value
+let highScore = document.querySelector(".highScore");
+
+// variable to update the existing high score
+let currHighScore = localStorage.getItem("highScore") || 0;
 
 // event listner to set the snake direction given by the user
 window.addEventListener("keydown", (event) => {
@@ -51,7 +68,7 @@ const game = () => {
     render();
     endGame();
     eatFood();
-  }, 500);
+  }, 200);
 };
 
 // function to update the position of food and snake
@@ -65,6 +82,10 @@ const update = () => {
   // setting the head
   snakeBody[0].x += inputDirection.x;
   snakeBody[0].y += inputDirection.y;
+
+  // displaying the current high score as the game loads
+  score.innerHTML = currentScore;
+  highScore.innerHTML = currHighScore;
 };
 
 // function to display the food and snake on board
@@ -100,6 +121,13 @@ const eatFood = () => {
 
     // increasing the snake body by one, once he eat the food
     snakeBody.push({ x: 0, y: 0 });
+
+    // increasing the score and high score after eating the food
+    currentScore += 1;
+    if (currentScore > currHighScore) {
+      currHighScore = currentScore;
+      localStorage.setItem("highScore", currHighScore);
+    }
   }
 };
 

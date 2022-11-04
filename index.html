@@ -8,6 +8,33 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <h3>Snake Game</h3>
+
+    <!-- for displaying the score, highScore, game level and game mode -->
+    <div>
+        <!-- for displaying the score and high score -->
+        <div>
+            <p>Score : <span class="score">0</span></p>
+            <p>High Score : <span class="highScore">0</span></p>
+        </div>
+
+        <!-- for displaying the game level and game mode -->
+        <form>
+            <!-- for selecting the game level -->
+            <select>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+
+            <!-- for selecting the game mode -->
+            <select>
+                <option value="strict">Strict Mode</option>
+                <option value="loosed">Loosed Mode</option>
+            </select>
+        </form>
+    </div>
+
     <!-- Game Board -->
     <div class="gameBoard"></div>
 </body>
