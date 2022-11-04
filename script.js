@@ -13,7 +13,7 @@ let food = {
 let inputDirection = { x: 0, y: 0 };
 
 // setting the default speed for the snake
-let speed = 1000;
+let speed = undefined;
 
 // to store the setInterval id to stop the game
 let gameLoop = undefined;
@@ -29,6 +29,12 @@ let highScore = document.querySelector(".highScore");
 
 // variable to update the existing high score
 let currHighScore = localStorage.getItem("highScore") || 0;
+
+// accessing the game level from the html
+let gameLevel = document.querySelector(".gameLevel");
+
+// accessing the game mode from the html
+let gameMode = document.querySelector(".gameMode");
 
 // event listner to set the snake direction given by the user
 window.addEventListener("keydown", (event) => {
@@ -61,14 +67,23 @@ window.addEventListener("keydown", (event) => {
 });
 
 // function to start the game
-const game = () => {
+const startGame = () => {
+  // setting the snake speed according to the user input from game level
+  if (gameLevel.value === "easy") {
+    speed = 600;
+  } else if (gameLevel.value === "medium") {
+    speed = 300;
+  } else {
+    speed = 150;
+  }
+
   // creating a game loop to run for every second
   gameLoop = setInterval(() => {
     update();
     render();
     endGame();
     eatFood();
-  }, 200);
+  }, speed);
 };
 
 // function to update the position of food and snake
@@ -144,17 +159,34 @@ const endGame = () => {
     }
   }
 
-  // checking that the snake had hit the wall or not
-  if (
-    snakeBody[0].x < 0 ||
-    snakeBody[0].y < 0 ||
-    snakeBody[0].x > 20 ||
-    snakeBody[0].y > 20
-  ) {
-    clearInterval(gameLoop);
-    alert("You hit the wall");
+  if (gameMode.value === "strict") {
+    // checking that the snake had hit the wall or not
+    if (
+      snakeBody[0].x < 0 ||
+      snakeBody[0].y < 0 ||
+      snakeBody[0].x > 20 ||
+      snakeBody[0].y > 20
+    ) {
+      clearInterval(gameLoop);
+      alert("You hit the wall");
+    }
+  }
+  // allowing the snake to pass the wall
+  else {
+    if (snakeBody[0].x < 0) {
+      snakeBody[0].x = 20;
+    } else if (snakeBody[0].y < 0) {
+      snakeBody[0].y = 20;
+    } else if (snakeBody[0].x > 20) {
+      snakeBody[0].x = 0;
+    } else if (snakeBody[0].y > 20) {
+      snakeBody[0].y = 0;
+    }
   }
 };
 
-// starting the game
-game();
+// function to restart the game
+const restart = () => {
+  // simply relaoding the whole page, once a user wants to restarts the game
+  window.location.reload();
+};
