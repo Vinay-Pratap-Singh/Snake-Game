@@ -36,10 +36,6 @@ let gameLevel = document.querySelector(".gameLevel");
 // accessing the game mode from the html
 let gameMode = document.querySelector(".gameMode");
 
-// adding sounds to play on multiple occassions
-let wallHit = new Audio("./hittingWall.mp3");
-let eatHimself = new Audio("./eatingHimself.mp3");
-
 // event listner to set the snake direction given by the user
 window.addEventListener("keydown", (event) => {
   switch (event.key) {
@@ -83,7 +79,7 @@ const startGame = () => {
 
   // removing the snake background image
   gameBoard.style.backgroundImage = "none";
-  gameBoard.style.background = "#a171a2"
+  gameBoard.style.background = "#a171a2";
 
   // creating a game loop to run for every second
   gameLoop = setInterval(() => {
@@ -119,7 +115,11 @@ const render = () => {
   // creating the snake body and appending it to the game board
   snakeBody.forEach((element) => {
     let bodyPart = document.createElement("div");
-    bodyPart.classList.add("snake");
+    if (snakeBody[0] === element) {
+      bodyPart.classList.add("snakeHead");
+    } else {
+      bodyPart.classList.add("snake");
+    }
     bodyPart.style.gridRowStart = element.x;
     bodyPart.style.gridColumnStart = element.y;
     gameBoard.appendChild(bodyPart);
@@ -155,7 +155,7 @@ const eatFood = () => {
 };
 
 // game over functionality, if a snake passes himself or the walls
-const endGame = async() => {
+const endGame = async () => {
   // checking that the snake had eaten his body or not
   for (let i = 1; i < snakeBody.length - 1; i++) {
     if (
@@ -163,9 +163,17 @@ const endGame = async() => {
       snakeBody[0].y === snakeBody[i].y
     ) {
       clearInterval(gameLoop);
-      await eatHimself.play();
-      restart();
-      // alert("You are eating your body");
+
+      // displaying the game over message
+      let gameOver = document.createElement("div");
+      gameOver.classList.add("gameOver");
+      gameOver.innerText = "Game Over";
+      gameBoard.appendChild(gameOver);
+
+      // wait for 2 second to restart the game
+      await setTimeout(() => {
+        restart();
+      }, 2000);
     }
   }
 
@@ -178,11 +186,20 @@ const endGame = async() => {
       snakeBody[0].y > 20
     ) {
       clearInterval(gameLoop);
-      await wallHit.play();
-      restart();
-      // alert("You hit the wall");
+
+      // displaying the game over message
+      let gameOver = document.createElement("div");
+      gameOver.classList.add("gameOver");
+      gameOver.innerText = "Game Over";
+      gameBoard.appendChild(gameOver);
+
+      // wait for 2 second to restart the game
+      await setTimeout(() => {
+        restart();
+      }, 2000);
     }
   }
+
   // allowing the snake to pass the wall
   else {
     if (snakeBody[0].x < 0) {
@@ -201,6 +218,10 @@ const endGame = async() => {
 const restart = () => {
   // simply relaoding the whole page, once a user wants to restarts the game
   snakeBody = [{ x: 10, y: 10 }];
+  food = {
+    x: Math.floor(Math.random() * 21),
+    y: Math.floor(Math.random() * 21),
+  };
   inputDirection = { x: 0, y: 0 };
   currentScore = 0;
   startGame();

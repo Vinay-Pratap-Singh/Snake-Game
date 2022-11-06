@@ -4,6 +4,7 @@
     padding: 0;
     outline: none;
     box-sizing: border-box;
+    font-family: "Poppins";
 }
 
 body{
@@ -18,7 +19,7 @@ body{
 
 /* details board design */
 .detailsBoard{
-    width: 30vw;
+    width: 35vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,8 +53,8 @@ body{
 button, select{
     cursor: pointer;
     border: 1px solid white;
-    background: linear-gradient(-180deg, #482649, #202024);
     color: white;
+    background: transparent;
     font-weight: 600;
 }
 
@@ -67,11 +68,13 @@ button{
 
 option{
     color: black;
-    font-weight: 900;
+    font-weight: 600;
 }
 
 button:hover, select:hover{
-    
+    background: white;
+    color: black;
+    border: 1px solid black;
 }
 
 /* game board design */
@@ -90,24 +93,47 @@ button:hover, select:hover{
     box-shadow: 3px 3px 15px white;
 }
 
-/* snake design */
+/* snake body design */
 .snake{
     position: relative;
     z-index: 100;
-    /* border: 1px solid blue;
-    background-color: green; */
-    border-radius: 50%;
-    background-image: url("./snakeHead.jpg");
+    background-color: #4F2B72;
+    box-shadow: 1px 1px 3px white, -1px -1px 3px white;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
+/* snake head */
+.snakeHead{
+    position: relative;
+    z-index: 100;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #442645;
+    box-shadow: 1px 1px 3px white, -1px -1px 3px white;
+}
+
 /* food design */
 .food{
-    border-radius: 50%;
-    background-image: url("./foodImage.jpg");
+    background-color: green;
+    box-shadow: 1px 1px 3px white, -1px -1px 3px white;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+/* game over design */
+.gameOver{
+    grid-column-start: 8;
+    grid-column-end: 15;
+    grid-row-start: 10;
+    grid-row-end: 11;
+    border: 2px solid white;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    font-size: 25px;
+    background: linear-gradient(-180deg, #482649, #202024);
 }
