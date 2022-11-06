@@ -36,6 +36,10 @@ let gameLevel = document.querySelector(".gameLevel");
 // accessing the game mode from the html
 let gameMode = document.querySelector(".gameMode");
 
+// adding sounds to play on multiple occassions
+let wallHit = new Audio("./hittingWall.mp3");
+let eatHimself = new Audio("./eatingHimself.mp3");
+
 // event listner to set the snake direction given by the user
 window.addEventListener("keydown", (event) => {
   switch (event.key) {
@@ -76,6 +80,10 @@ const startGame = () => {
   } else {
     speed = 150;
   }
+
+  // removing the snake background image
+  gameBoard.style.backgroundImage = "none";
+  gameBoard.style.background = "#a171a2"
 
   // creating a game loop to run for every second
   gameLoop = setInterval(() => {
@@ -147,7 +155,7 @@ const eatFood = () => {
 };
 
 // game over functionality, if a snake passes himself or the walls
-const endGame = () => {
+const endGame = async() => {
   // checking that the snake had eaten his body or not
   for (let i = 1; i < snakeBody.length - 1; i++) {
     if (
@@ -155,20 +163,24 @@ const endGame = () => {
       snakeBody[0].y === snakeBody[i].y
     ) {
       clearInterval(gameLoop);
-      alert("You are eating your body");
+      await eatHimself.play();
+      restart();
+      // alert("You are eating your body");
     }
   }
 
   if (gameMode.value === "strict") {
     // checking that the snake had hit the wall or not
     if (
-      snakeBody[0].x < 0 ||
-      snakeBody[0].y < 0 ||
+      snakeBody[0].x < 1 ||
+      snakeBody[0].y < 1 ||
       snakeBody[0].x > 20 ||
       snakeBody[0].y > 20
     ) {
       clearInterval(gameLoop);
-      alert("You hit the wall");
+      await wallHit.play();
+      restart();
+      // alert("You hit the wall");
     }
   }
   // allowing the snake to pass the wall
@@ -188,5 +200,8 @@ const endGame = () => {
 // function to restart the game
 const restart = () => {
   // simply relaoding the whole page, once a user wants to restarts the game
-  window.location.reload();
+  snakeBody = [{ x: 10, y: 10 }];
+  inputDirection = { x: 0, y: 0 };
+  currentScore = 0;
+  startGame();
 };

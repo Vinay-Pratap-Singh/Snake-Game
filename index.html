@@ -8,44 +8,46 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-
-    <div class="wrapper">
+    <!-- for displaying the score, highScore, game level and game mode -->
+    <div class="detailsBoard">
       <h3>Snake Game</h3>
+      <!-- for displaying the score and high score -->
+      <div class="scoreBoard">
+        <p>Score : <span class="score">0</span></p>
+        <p>High Score : <span class="highScore">0</span></p>
+      </div>
 
-      <!-- for displaying the score, highScore, game level and game mode -->
-      <div>
-        <!-- for displaying the score and high score -->
-        <div>
-          <p>Score : <span class="score">0</span></p>
-          <p>High Score : <span class="highScore">0</span></p>
-        </div>
-
-        <!-- for displaying the game level and game mode -->
-        <form>
+      <!-- for displaying the game level and game mode -->
+      <form>
+        <div class="gameLevelDiv">
           <!-- for selecting the game level -->
+          <p>Level :</p>
           <select class="gameLevel">
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
           </select>
+        </div>
 
+        <div class="gameModeDiv">
           <!-- for selecting the game mode -->
+          <p>Mode :</p>
           <select class="gameMode">
             <option value="strict">Strict Mode</option>
             <option value="loosed">Loosed Mode</option>
           </select>
-        </form>
-      </div>
-
-      <!-- Game Board -->
-      <div class="gameBoard"></div>
+        </div>
+      </form>
 
       <!-- adding the game start and restart button-->
-      <div>
+      <div class="gameBtn">
         <button onclick="startGame()">Start Game</button>
         <button onclick="restart()">Restart Game</button>
       </div>
     </div>
+
+    <!-- Game Board -->
+    <div class="gameBoard"></div>
   </body>
   <script src="./script.js"></script>
 </html>
